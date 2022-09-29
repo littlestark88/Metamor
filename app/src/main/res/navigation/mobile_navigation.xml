@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="id.co.astra.adel.metamor.presentasion.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_list_item"
+        android:name="id.co.astra.adel.metamor.presentasion.listitem.ListItemFragment"
+        android:label="@string/menu_list_item"
+        tools:layout="@layout/fragment_list_item" />
+
+    <fragment
+        android:id="@+id/nav_add_item"
+        android:name="id.co.astra.adel.metamor.presentasion.additem.AddItemFragment"
+        android:label="@string/menu_add_item"
+        tools:layout="@layout/fragment_add_item" />
+
+    <fragment
+        android:id="@+id/nav_save_order"
+        android:name="id.co.astra.adel.metamor.presentasion.saveorder.SaveOrderFragment"
+        android:label="@string/menu_save_order"
+        tools:layout="@layout/fragment_save_order" />
+
+    <fragment
+        android:id="@+id/nav_invoice"
+        android:name="id.co.astra.adel.metamor.presentasion.invoice.InvoiceFragment"
+        android:label="@string/menu_invoice"
+        tools:layout="@layout/fragment_invoice" />
+
+    <fragment
+        android:id="@+id/nav_setting"
+        android:name="id.co.astra.adel.metamor.presentasion.setting.SettingFragment"
+        android:label="@string/menu_setting"
+        tools:layout="@layout/fragment_setting" />
+
+</navigation>
