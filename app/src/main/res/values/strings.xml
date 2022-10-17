@@ -71,4 +71,7 @@
     <string name="label_take_away">Take Away</string>
     <string name="label_save_order">Simpan Order</string>
     <string name="menu_save_order">Simpan Order</string>
+    <string name="label_camera">Camera</string>
+    <string name="label_switch_camera">Switch Camera</string>
+    <string name="label_failed_show_camera">Failed show camera</string>
 </resources>

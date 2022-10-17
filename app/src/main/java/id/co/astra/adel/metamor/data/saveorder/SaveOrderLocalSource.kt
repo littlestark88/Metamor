@@ -3,8 +3,11 @@ package id.co.astra.adel.metamor.data.saveorder
 import id.co.astra.adel.metamor.data.saveorder.local.SaveOrderDao
 import id.co.astra.adel.metamor.data.saveorder.local.SaveOrderEntity
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SaveOrderLocalSource(private val saveOrderDao: SaveOrderDao): ISaveOrderLocalSource {
+@Singleton
+class SaveOrderLocalSource @Inject constructor(private val saveOrderDao: SaveOrderDao): ISaveOrderLocalSource {
     override suspend fun insertSaveOrder(saveOrderEntity: SaveOrderEntity) {
         return saveOrderDao.insertSaveOrder(saveOrderEntity)
     }

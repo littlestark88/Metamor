@@ -2,8 +2,9 @@ package id.co.astra.adel.metamor.domain.customer
 
 import id.co.astra.adel.metamor.domain.customer.model.Customer
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class CustomerInteractor(private val repository: ICustomerRepository):CustomerUseCase {
+class CustomerInteractor @Inject constructor(private val repository: ICustomerRepository):CustomerUseCase {
     override suspend fun insertCustomer(customer: Customer) = repository.insertCustomer(customer)
 
     override suspend fun updateCustomer(customer: Customer) = repository.updateCustomer(customer)

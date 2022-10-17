@@ -6,8 +6,11 @@ import id.co.astra.adel.metamor.domain.checkout.model.Checkout
 import id.co.astra.adel.metamor.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class CheckoutRepository(
+@Singleton
+class CheckoutRepository @Inject constructor(
     private val checkOutLocalSource: CheckoutLocalSource
 ): ICheckoutRepository {
     override suspend fun insertCheckout(checkout: Checkout) {

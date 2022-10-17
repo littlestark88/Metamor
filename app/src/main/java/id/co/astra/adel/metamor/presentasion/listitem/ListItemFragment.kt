@@ -5,20 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.FragmentListItemBinding
 import id.co.astra.adel.metamor.presentasion.additem.AddItemViewModel
 import id.co.astra.adel.metamor.presentasion.listitem.adapter.ListItemAdapter
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class ListItemFragment : Fragment() {
 
     private var _binding: FragmentListItemBinding? = null
-    private val addItemViewModel: AddItemViewModel by viewModel()
+    private val addItemViewModel: AddItemViewModel by viewModels()
     private val listItemAdapter: ListItemAdapter by lazy {
         ListItemAdapter(
             requireActivity(),

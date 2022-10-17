@@ -2,10 +2,13 @@ package id.co.astra.adel.metamor.presentasion.customer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.astra.adel.metamor.domain.customer.CustomerUseCase
 import id.co.astra.adel.metamor.domain.customer.model.Customer
+import javax.inject.Inject
 
-class CustomerViewModel(private val customerUseCase: CustomerUseCase): ViewModel() {
+@HiltViewModel
+class CustomerViewModel @Inject constructor(private val customerUseCase: CustomerUseCase): ViewModel() {
 
     val getAllCustomer = customerUseCase.getAllCustomer().asLiveData()
 

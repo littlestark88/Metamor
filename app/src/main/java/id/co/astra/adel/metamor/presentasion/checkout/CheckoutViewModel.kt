@@ -2,10 +2,13 @@ package id.co.astra.adel.metamor.presentasion.checkout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import id.co.astra.adel.metamor.domain.checkout.CheckoutUseCase
 import id.co.astra.adel.metamor.domain.checkout.model.Checkout
+import javax.inject.Inject
 
-class CheckoutViewModel(private val checkoutUseCase: CheckoutUseCase): ViewModel() {
+@HiltViewModel
+class CheckoutViewModel @Inject constructor(private val checkoutUseCase: CheckoutUseCase): ViewModel() {
 
     val getAllCheckout = checkoutUseCase.getAllCheckout().asLiveData()
 

@@ -6,8 +6,11 @@ import id.co.astra.adel.metamor.domain.order.model.Order
 import id.co.astra.adel.metamor.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class OrderRepository(private val orderLocalSource: OrderLocalSource): IOrderRepository {
+@Singleton
+class OrderRepository @Inject constructor(private val orderLocalSource: OrderLocalSource): IOrderRepository {
     override suspend fun insertOrder(order: Order) {
         orderLocalSource.insertOrder(order.mapToEntity())
     }

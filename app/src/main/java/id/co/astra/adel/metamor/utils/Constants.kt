@@ -15,4 +15,7 @@ object Constants {
     const val YYYY_MM_DD_HH_MM_SS_SSS = "yyyy-MM-dd'T'HH:mm:ss.SSS"
     const val PERMISSION_REQUEST_CODE = 101
     const val ID_CUSTOMER = "id_customer"
+    const val CAMERA_X_RESULT = 200
+    const val PICTURE = "picture"
+    const val IS_BACK_CAMERA = "isBackCamera"
 }

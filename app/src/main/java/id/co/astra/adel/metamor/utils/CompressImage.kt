@@ -42,7 +42,7 @@ private fun getFileSizeInMB(filePath: String): Double {
     return (fileSizeInKB / 1024).toString().toDouble()
 }
 
-private fun exifOrientationToDegrees(exifOrientation: Int): Int {
+fun exifOrientationToDegrees(exifOrientation: Int): Int {
     return when (exifOrientation) {
         ExifInterface.ORIENTATION_ROTATE_90 -> 90
         ExifInterface.ORIENTATION_ROTATE_180 -> 180
@@ -51,7 +51,7 @@ private fun exifOrientationToDegrees(exifOrientation: Int): Int {
     }
 }
 
-private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+fun rotateImage(source: Bitmap, angle: Float): Bitmap {
     val matrix = Matrix()
     matrix.postRotate(angle)
     return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)

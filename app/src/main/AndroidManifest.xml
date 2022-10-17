@@ -29,6 +29,9 @@
         android:theme="@style/Theme.Metamor"
         tools:replace="@android:theme">
         <activity
+            android:name=".presentasion.camera.CameraXActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentasion.invoice.InvoiceDetailActivity"
             android:exported="false" />
         <activity
@@ -43,8 +46,8 @@
         <activity
             android:name=".presentasion.home.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Metamor.NoActionBar"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Metamor.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

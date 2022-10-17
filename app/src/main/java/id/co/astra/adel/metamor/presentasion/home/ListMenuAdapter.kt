@@ -2,11 +2,9 @@ package id.co.astra.adel.metamor.presentasion.home
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import id.co.astra.adel.metamor.R
+import com.bumptech.glide.Glide
 import id.co.astra.adel.metamor.databinding.ItemListMenuBinding
 import id.co.astra.adel.metamor.domain.additem.model.AddItem
 import id.co.astra.adel.metamor.utils.convertCurrency
@@ -24,8 +22,10 @@ class ListMenuAdapter(
         notifyItemChanged(itemCount)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        MenuViewHolder(LayoutInflater.from(context).inflate(R.layout.item_list_menu, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
+        val binding = ItemListMenuBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MenuViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
         holder.bind(data[position])
@@ -33,15 +33,18 @@ class ListMenuAdapter(
 
     override fun getItemCount(): Int = data.size
 
-    inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemListMenuBinding.bind(itemView)
+    inner class MenuViewHolder(private val binding: ItemListMenuBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
             data: AddItem
         ) {
             with(binding) {
                 tvName.text = data.nameItem
                 tvPricing.text = convertCurrency(data.priceItem)
-                imgPoster.load(data.imageItem)
+                Glide
+                    .with(context)
+                    .load(data.imageItem)
+                    .centerCrop()
+                    .into(imgPoster)
                 itemView.setOnClickListener { onClickListener(data) }
             }
         }

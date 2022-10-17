@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
 import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.ItemListMetamorBinding
 import id.co.astra.adel.metamor.domain.additem.model.AddItem
@@ -26,10 +26,10 @@ class ListItemAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) =
-        AddViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_list_metamor, parent, false)
-        )
+    ): AddViewHolder {
+        val binding = ItemListMetamorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return AddViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: AddViewHolder, position: Int) {
         holder.bind(data[position], onClickListener)
@@ -38,17 +38,22 @@ class ListItemAdapter(
     override fun getItemCount(): Int = data.size
 
 
-    inner class AddViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemListMetamorBinding.bind(itemView)
+    inner class AddViewHolder(private val binding: ItemListMetamorBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(
             data: AddItem,
             onClickListener: (AddItem) -> Unit
         ) {
-            binding.tvName.text = data.nameItem
-            binding.tvPricing.text = convertCurrency(data.priceItem)
-            binding.imgPoster.load(data.imageItem)
-            binding.imgDelete.setOnClickListener {
-                onClickListener(data)
+            with(binding) {
+                tvName.text = data.nameItem
+                tvPricing.text = convertCurrency(data.priceItem)
+                Glide
+                    .with(context)
+                    .load(data.imageItem)
+                    .centerCrop()
+                    .into(imgPoster)
+                imgDelete.setOnClickListener {
+                    onClickListener(data)
+                }
             }
         }
     }

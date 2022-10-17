@@ -2,8 +2,9 @@ package id.co.astra.adel.metamor.domain.saveorder
 
 import id.co.astra.adel.metamor.domain.saveorder.model.SaveOrder
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class SaveOrderInteractor(private val saveOrderRepository: ISaveOrderRepository): SaveOrderUseCase {
+class SaveOrderInteractor @Inject constructor(private val saveOrderRepository: ISaveOrderRepository): SaveOrderUseCase {
     override suspend fun insertSaveOrder(saveOrder: SaveOrder) {
         saveOrderRepository.insertSaveOrder(saveOrder)
     }

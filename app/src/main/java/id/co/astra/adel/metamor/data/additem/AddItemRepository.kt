@@ -6,8 +6,11 @@ import id.co.astra.adel.metamor.domain.additem.model.AddItem
 import id.co.astra.adel.metamor.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AddItemRepository(
+@Singleton
+class AddItemRepository @Inject constructor(
     private val addItemLocalSource: AddItemLocalSource
 ): IAddItemRepository {
 

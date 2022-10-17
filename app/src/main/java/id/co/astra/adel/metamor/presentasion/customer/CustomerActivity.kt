@@ -1,19 +1,21 @@
 package id.co.astra.adel.metamor.presentasion.customer
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.ActivityCustomerBinding
 import id.co.astra.adel.metamor.domain.customer.model.Customer
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class CustomerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCustomerBinding
-    private val customerViewModel: CustomerViewModel by viewModel()
+    private val customerViewModel: CustomerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

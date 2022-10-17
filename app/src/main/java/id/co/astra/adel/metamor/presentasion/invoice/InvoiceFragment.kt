@@ -1,33 +1,31 @@
 package id.co.astra.adel.metamor.presentasion.invoice
 
-//import id.co.astra.adel.metamor.presentasion.checkout.CheckoutViewModel
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.databinding.FragmentInvoiceBinding
 import id.co.astra.adel.metamor.domain.checkout.model.Checkout
 import id.co.astra.adel.metamor.presentasion.checkout.CheckoutViewModel
 import id.co.astra.adel.metamor.utils.Constants.CHECKOUT_ID
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
+@AndroidEntryPoint
 class InvoiceFragment : Fragment() {
 
     private var _binding: FragmentInvoiceBinding? = null
     private val binding get() = _binding
-    private val checkoutViewModel: CheckoutViewModel by viewModel()
+    private val checkoutViewModel: CheckoutViewModel by viewModels()
     private val invoiceAdapter: InvoiceAdapter by lazy {
         InvoiceAdapter(
-            requireActivity(),
-            mutableListOf(),
-            onClickListener = {
-                intentToInvoiceDetail(it)
-            }
-        )
+            mutableListOf()
+        ) {
+            intentToInvoiceDetail(it)
+        }
     }
 
     override fun onCreateView(

@@ -2,10 +2,12 @@ package id.co.astra.adel.metamor.presentasion.order
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.ActivityOrderListBinding
 import id.co.astra.adel.metamor.domain.customer.model.Customer
@@ -23,14 +25,14 @@ import id.co.astra.adel.metamor.utils.DataMapper
 import id.co.astra.adel.metamor.utils.convertCurrency
 import id.co.astra.adel.metamor.utils.showSimpleListDialog
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class OrderListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOrderListBinding
-    private val orderViewModel: OrderViewModel by viewModel()
-    private val customerViewModel: CustomerViewModel by viewModel()
-    private val saveOrderViewModel: SaveOrderViewModel by viewModel()
+    private val orderViewModel: OrderViewModel by viewModels()
+    private val customerViewModel: CustomerViewModel by viewModels()
+    private val saveOrderViewModel: SaveOrderViewModel by viewModels()
     private lateinit var orderListAdapter: OrderListAdapter
     private var data = mutableListOf<Order>()
     private var dataOrder = mutableListOf<Order>()
@@ -126,7 +128,7 @@ class OrderListActivity : AppCompatActivity() {
     }
 
     private fun showRecyclerList() {
-        orderListAdapter = OrderListAdapter(this, data) { itemEntity ->
+        orderListAdapter = OrderListAdapter(data) { itemEntity ->
             val dialog = MaterialDialog(this)
                 .cancelable(false)
                 .cancelOnTouchOutside(false)

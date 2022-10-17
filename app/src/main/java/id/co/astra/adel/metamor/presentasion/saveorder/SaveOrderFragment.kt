@@ -2,30 +2,29 @@ package id.co.astra.adel.metamor.presentasion.saveorder
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import id.co.astra.adel.metamor.R
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.databinding.FragmentSaveOrderBinding
 import id.co.astra.adel.metamor.presentasion.order.OrderListActivity
 import id.co.astra.adel.metamor.utils.Constants.ID_CUSTOMER
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class SaveOrderFragment : Fragment() {
 
     private var _binding: FragmentSaveOrderBinding? = null
     private val binding get() = _binding!!
-    private val saveOrderViewModel: SaveOrderViewModel by viewModel()
+    private val saveOrderViewModel: SaveOrderViewModel by viewModels()
     private val saveOrderAdapter: SaveOrderAdapter by lazy {
         SaveOrderAdapter(
-            requireActivity(),
-            mutableListOf(),
-            onClickListener = {
-                intentToOrder(it.idCustomer)
-            }
-        )
+            mutableListOf()
+        ) {
+            intentToOrder(it.idCustomer)
+        }
     }
 
     override fun onCreateView(

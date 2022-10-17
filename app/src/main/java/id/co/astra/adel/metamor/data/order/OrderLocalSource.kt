@@ -3,8 +3,11 @@ package id.co.astra.adel.metamor.data.order
 import id.co.astra.adel.metamor.data.order.local.OrderDao
 import id.co.astra.adel.metamor.data.order.local.OrderEntity
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class OrderLocalSource(private val orderDao: OrderDao): IOrderLocalSource {
+@Singleton
+class OrderLocalSource @Inject constructor(private val orderDao: OrderDao): IOrderLocalSource {
     override suspend fun insertOrder(orderEntity: OrderEntity) = orderDao.insertTakeItem(orderEntity)
 
     override suspend fun updateOrder(orderEntity: OrderEntity) = orderDao.updateTakeItem(orderEntity)

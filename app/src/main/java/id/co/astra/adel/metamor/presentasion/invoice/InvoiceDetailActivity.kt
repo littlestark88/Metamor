@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mazenrashed.printooth.Printooth
@@ -14,6 +15,7 @@ import com.mazenrashed.printooth.data.printable.TextPrintable
 import com.mazenrashed.printooth.data.printer.DefaultPrinter
 import com.mazenrashed.printooth.ui.ScanningActivity
 import com.mazenrashed.printooth.utilities.Printing
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.ActivityInvoiceDetailBinding
 import id.co.astra.adel.metamor.domain.checkout.model.Checkout
@@ -22,14 +24,14 @@ import id.co.astra.adel.metamor.presentasion.checkout.CheckoutViewModel
 import id.co.astra.adel.metamor.utils.Constants.CHECKOUT_ID
 import id.co.astra.adel.metamor.utils.convertCurrency
 import id.co.astra.adel.metamor.utils.convertPatternDate
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class InvoiceDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityInvoiceDetailBinding
     private var dataCheckout: Checkout? = null
     private var dataCheckoutList = ArrayList<CheckoutList>()
-    private val checkoutViewModel: CheckoutViewModel by viewModel()
+    private val checkoutViewModel: CheckoutViewModel by viewModels()
     private lateinit var invoiceDetailAdapter: InvoiceDetailAdapter
     private var printing: Printing? = null
     private var outputDate: String? = null
@@ -46,7 +48,6 @@ class InvoiceDetailActivity : AppCompatActivity() {
             checkout.checkoutItem.let {
                 dataCheckoutList.addAll(it)
                 invoiceDetailAdapter = InvoiceDetailAdapter(
-                    this,
                     it
                 )
             }

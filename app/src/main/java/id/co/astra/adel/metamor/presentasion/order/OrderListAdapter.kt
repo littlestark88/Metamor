@@ -1,25 +1,20 @@
 package id.co.astra.adel.metamor.presentasion.order
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.ItemListOrderBinding
 import id.co.astra.adel.metamor.domain.order.model.Order
 import id.co.astra.adel.metamor.utils.CallbackInterface
 import id.co.astra.adel.metamor.utils.convertCurrency
 
 class OrderListAdapter(
-    private val context: Context,
     private val data: MutableList<Order>,
     private val onClickListener: (Order) -> Unit
 ): RecyclerView.Adapter<OrderListAdapter.OrderViewHolder>() {
 
     var callbackInterface: CallbackInterface? = null
     var total = 0.0
-//    var totalQuantity = 0
 
 
     fun setListOrder(orderList: List<Order>) {
@@ -28,10 +23,10 @@ class OrderListAdapter(
         notifyItemChanged(itemCount)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        OrderViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_list_order, parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
+        val binding = ItemListOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return OrderViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         holder.bind(data[position], onClickListener)
@@ -39,8 +34,7 @@ class OrderListAdapter(
 
     override fun getItemCount(): Int = data.size
 
-    inner class OrderViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemListOrderBinding.bind(itemView)
+    inner class OrderViewHolder(private val binding: ItemListOrderBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(
             data: Order,
             onClickListener: (Order) -> Unit

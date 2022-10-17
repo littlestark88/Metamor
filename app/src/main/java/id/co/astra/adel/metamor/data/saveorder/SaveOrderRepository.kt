@@ -6,8 +6,11 @@ import id.co.astra.adel.metamor.domain.saveorder.model.SaveOrder
 import id.co.astra.adel.metamor.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SaveOrderRepository(private val saveOrderLocalSource: SaveOrderLocalSource): ISaveOrderRepository {
+@Singleton
+class SaveOrderRepository @Inject constructor(private val saveOrderLocalSource: SaveOrderLocalSource): ISaveOrderRepository {
     override suspend fun insertSaveOrder(saveOrder: SaveOrder) {
         saveOrderLocalSource.insertSaveOrder(saveOrder.mapToEntity())
     }

@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class AddItem(
-    var idItem: Int,
+    var idItem: Int = 0,
     var nameItem: String,
     var priceItem: Double,
     var imageItem: Bitmap? = null

@@ -6,24 +6,28 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
+import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.FragmentOrderItemBinding
 import id.co.astra.adel.metamor.domain.additem.model.AddItem
 import id.co.astra.adel.metamor.domain.order.model.Order
 import id.co.astra.adel.metamor.utils.Constants.ITEM_DATA
 import id.co.astra.adel.metamor.utils.convertCurrency
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
+@AndroidEntryPoint
 class OrderItemFragment : DialogFragment() {
 
     private var _binding: FragmentOrderItemBinding? = null
     private val binding get() = _binding!!
     private var valueQuantity = 1
-    private val orderViewModel: OrderViewModel by viewModel()
+    private val orderViewModel: OrderViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -38,12 +42,12 @@ class OrderItemFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dataItem = arguments?.getParcelable<AddItem>(ITEM_DATA)
-        val priceDiscount = convertCurrency(dataItem?.priceItem)
         with(binding) {
             btnCancel.setOnClickListener {
                 dismiss()
             }
             btnSave.setOnClickListener {
+                val valueDiscount = edtDiscount.text.toString()
                 lifecycleScope.launch {
                     orderViewModel.insertOrder(
                         Order(
@@ -51,7 +55,7 @@ class OrderItemFragment : DialogFragment() {
                             dataItem?.nameItem.toString(),
                             dataItem?.priceItem ?: 0.0,
                             valueQuantity,
-                            0
+                            valueDiscount.toInt()
                         )
                     )
                 }
@@ -61,45 +65,24 @@ class OrderItemFragment : DialogFragment() {
             switchDiscount.setOnClickListener {
                 if (switchDiscount.isChecked) {
                     edtDiscount.isEnabled = true
-                    edtDiscount.addTextChangedListener(object : TextWatcher {
-                        override fun beforeTextChanged(
-                            p0: CharSequence?,
-                            p1: Int,
-                            p2: Int,
-                            p3: Int
-                        ) {
-
-                        }
-
-                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                        }
-
-                        override fun afterTextChanged(p0: Editable?) {
-//                            val discounts = edtDiscount.text.toString().trim()
-//                            if (discounts.isEmpty()) {
-//                                edtDiscount.hint = "0"
-//                            } else {
-//                                val discount = p0.toString().toInt()
-//                                priceDiscount =
-//                                    dataItem.priceItem - (dataItem.priceItem / 100 * discount)
-//                            }
-                        }
-                    })
-
+                    edtDiscount.hint = 0.toString()
                 } else {
                     edtDiscount.isEnabled = false
-//                    priceDiscount = dataItem.priceItem
                 }
 
             }
             btnPlus.setOnClickListener {
-                val valuePlus = valueQuantity++
-                tvQuantityValue.text = valuePlus.toString()
+                valueQuantity++
+                Toast.makeText(requireActivity(), valueQuantity.toString(), Toast.LENGTH_SHORT).show()
+                tvQuantityValue.text = valueQuantity.toString()
             }
             btnMinus.setOnClickListener {
-                val valueMinus = valueQuantity--
-                tvQuantityValue.text = valueMinus.toString()
+                if (valueQuantity <= 1) {
+                    btnMinus.setImageResource(R.drawable.ic_minus)
+                } else {
+                    valueQuantity--
+                    tvQuantityValue.text = valueQuantity.toString()
+                }
             }
             tvNameItem.text = dataItem?.nameItem
             tvPrice.text = convertCurrency(dataItem?.priceItem)

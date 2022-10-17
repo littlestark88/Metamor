@@ -12,7 +12,6 @@ import id.co.astra.adel.metamor.utils.convertCurrency
 import id.co.astra.adel.metamor.utils.convertPatternDate
 
 class InvoiceAdapter(
-    private val context: Context,
     private val data: MutableList<Checkout>,
     private val onClickListener: (Checkout) -> Unit
 ): RecyclerView.Adapter<InvoiceAdapter.InvoiceViewHolder>() {
@@ -23,17 +22,17 @@ class InvoiceAdapter(
         notifyItemChanged(itemCount)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            InvoiceViewHolder(LayoutInflater.from(context).inflate(R.layout.item_list_invoice, parent, false))
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InvoiceViewHolder {
+        val binding = ItemListInvoiceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return InvoiceViewHolder(binding)
+    }
     override fun onBindViewHolder(holder: InvoiceViewHolder, position: Int) {
         holder.bind(data[position])
     }
 
     override fun getItemCount(): Int = data.size
 
-    inner class InvoiceViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemListInvoiceBinding.bind(itemView)
+    inner class InvoiceViewHolder(private val binding: ItemListInvoiceBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(
             data: Checkout
         ) {

@@ -6,8 +6,11 @@ import id.co.astra.adel.metamor.domain.customer.model.Customer
 import id.co.astra.adel.metamor.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class CustomerRepository(private val customerLocalSource: CustomerLocalSource): ICustomerRepository {
+@Singleton
+class CustomerRepository @Inject constructor(private val customerLocalSource: CustomerLocalSource): ICustomerRepository {
     override suspend fun insertCustomer(customer: Customer) {
         customerLocalSource.insertCustomer(customer.mapToEntity())
     }

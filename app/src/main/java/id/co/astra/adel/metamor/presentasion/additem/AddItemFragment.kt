@@ -3,14 +3,13 @@ package id.co.astra.adel.metamor.presentasion.additem
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,31 +17,33 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.afollestad.materialdialogs.MaterialDialog
-import com.facebook.stetho.Stetho
-import id.co.astra.adel.metamor.BuildConfig
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.FragmentAddItemBinding
 import id.co.astra.adel.metamor.domain.additem.model.AddItem
+import id.co.astra.adel.metamor.presentasion.camera.CameraXActivity
+import id.co.astra.adel.metamor.utils.Constants.CAMERA_X_RESULT
+import id.co.astra.adel.metamor.utils.Constants.IS_BACK_CAMERA
 import id.co.astra.adel.metamor.utils.Constants.PERMISSION_REQUEST_CODE
-import id.co.astra.adel.metamor.utils.compressImage
+import id.co.astra.adel.metamor.utils.Constants.PICTURE
+import id.co.astra.adel.metamor.utils.reduceFileImage
+import id.co.astra.adel.metamor.utils.rotateBitmap
+import id.co.astra.adel.metamor.utils.uriToFile
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
-import java.io.FileOutputStream
 
+@AndroidEntryPoint
 class AddItemFragment : Fragment(), View.OnClickListener {
 
     private var _binding: FragmentAddItemBinding? = null
-    private val viewModel: AddItemViewModel by viewModel()
-    private var tempImageFilePath = ""
-    private var tempImageUri: Uri? = null
+    private val viewModel: AddItemViewModel by viewModels()
     private val binding get() = _binding
     private var image = ""
 
@@ -58,7 +59,6 @@ class AddItemFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Stetho.initializeWithDefaults(context);
         binding?.btnAddImage?.setOnClickListener(this)
         binding?.btnAddCamera?.setOnClickListener(this)
         binding?.btnSubmit?.setOnClickListener(this)
@@ -83,13 +83,8 @@ class AddItemFragment : Fragment(), View.OnClickListener {
     }
 
     private fun openCamera() {
-        tempImageUri = FileProvider.getUriForFile(
-            requireActivity(),
-            BuildConfig.APPLICATION_ID + ".fileprovider",
-            createImageFile().also {
-                tempImageFilePath = it.absolutePath
-            })
-        cameraLauncher.launch(tempImageUri)
+        val intent = Intent(context, CameraXActivity::class.java)
+        cameraXLauncher.launch(intent)
     }
 
     override fun onRequestPermissionsResult(
@@ -135,45 +130,33 @@ class AddItemFragment : Fragment(), View.OnClickListener {
         )
     }
 
-    private var cameraLauncher =
-        registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
-            if (isSuccess) {
-            compressImage(tempImageFilePath, 0.5)
-//            binding?.sizeAfter?.text = sizeString
-                binding?.imgPhoto?.setImageURI(tempImageUri)
+
+    private var cameraXLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == CAMERA_X_RESULT) {
+                val myFile = it.data?.getSerializableExtra(PICTURE) as File
+                val isBackCamera = it.data?.getBooleanExtra(IS_BACK_CAMERA, true) as Boolean
+
+                val result = rotateBitmap(
+                    BitmapFactory.decodeFile(myFile.path),
+                    isBackCamera
+                )
+                binding?.imgPhoto?.setImageBitmap(result)
+                val resizeImage = reduceFileImage(myFile)
+                image = resizeImage.toString()
             }
         }
+
+
     private var imgLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = result.data
-                val imageUri: Uri = data?.data!!
-                binding?.imgPhoto?.setImageURI(imageUri)
-                image = imageUri.toString()
-//                uriToFile(requireActivity(), imageUri)?.let { file ->
-//                    compressImage(file.absolutePath, 0.5)
-//                    binding?.sizeBefore?.text = sizeString
-//                }
+                val imageUri: Uri = result.data?.data as Uri
+                val myFile = uriToFile(imageUri, requireActivity())
+                val resizeImage = reduceFileImage(myFile)
+                image = resizeImage.toString()
             }
         }
-
-    private fun createImageFile(): File {
-        val storageDir = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("temp_image", ".jpg", storageDir)
-    }
-
-    private fun uriToFile(context: Context, uri: Uri): File? {
-        context.contentResolver.openInputStream(uri)?.let { inputStream ->
-            val tempFile: File = createImageFile()
-            val fileOutputSteam = FileOutputStream(tempFile)
-
-            inputStream.copyTo(fileOutputSteam)
-            inputStream.close()
-            fileOutputSteam.close()
-            return tempFile
-        }
-        return null
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -203,7 +186,6 @@ class AddItemFragment : Fragment(), View.OnClickListener {
             }
         }
     }
-
 
     private suspend fun getBitmap(): Bitmap {
         val loading = context?.let { ImageLoader(it) }

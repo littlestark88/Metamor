@@ -5,8 +5,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.ActivityPaymentBinding
 import id.co.astra.adel.metamor.domain.checkout.model.Checkout
@@ -21,10 +23,10 @@ import id.co.astra.adel.metamor.utils.DataMapper
 import id.co.astra.adel.metamor.utils.convertCurrency
 import id.co.astra.adel.metamor.utils.customDialogYesOrNo
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 import java.util.*
 
+@AndroidEntryPoint
 class PaymentActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding : ActivityPaymentBinding
@@ -37,8 +39,8 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
     private var typePayment: String? = null
     private var dataOrder = ArrayList<Order>()
     private val dateToday = LocalDateTime.now()
-    private val viewModelCheckout: CheckoutViewModel by viewModel()
-    private val orderViewModel: OrderViewModel by viewModel()
+    private val viewModelCheckout: CheckoutViewModel by viewModels()
+    private val orderViewModel: OrderViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
