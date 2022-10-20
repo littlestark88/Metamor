@@ -2,6 +2,7 @@ package id.co.astra.adel.metamor.presentasion.order
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.ActivityOrderListBinding
 import id.co.astra.adel.metamor.domain.customer.model.Customer
+import id.co.astra.adel.metamor.domain.customerorder.model.CustomerOrder
 import id.co.astra.adel.metamor.domain.order.model.Order
 import id.co.astra.adel.metamor.domain.saveorder.model.SaveOrder
 import id.co.astra.adel.metamor.presentasion.customer.CustomerViewModel
@@ -33,11 +35,14 @@ class OrderListActivity : AppCompatActivity() {
     private val orderViewModel: OrderViewModel by viewModels()
     private val customerViewModel: CustomerViewModel by viewModels()
     private val saveOrderViewModel: SaveOrderViewModel by viewModels()
+    private val customerOrderViewModel: CustomerOrderViewModel by viewModels()
     private lateinit var orderListAdapter: OrderListAdapter
     private var data = mutableListOf<Order>()
     private var dataOrder = mutableListOf<Order>()
     private var dataCustomer = mutableListOf<Customer>()
     private var dataCustomerSelected : Customer? = null
+    private var dataCustomerIdSelected: Int = 0
+    private var idOrder = mutableListOf<Int>()
     private var itemDataCustomer = mutableListOf<String>()
     private var dataTotal: Double = 0.0
     private var dataQuantity: Int = 0
@@ -81,6 +86,31 @@ class OrderListActivity : AppCompatActivity() {
     }
 
     private fun saveOrder() {
+        var tes = 0
+        var customerOrder : List<CustomerOrder>? = null
+//        dataOrder.forEach {
+//            Log.e( "saveOrder: ", "${it.idItem}" )
+//            customerOrder = listOf(
+//                CustomerOrder(
+//                    csId = dataCustomerIdSelected,
+//                    orId = it.idItem
+//                )
+//            )
+//        }
+        for(i in dataOrder.indices) {
+            customerOrder = listOf(
+                CustomerOrder(
+                    csId = dataCustomerIdSelected,
+                    orId = dataOrder[i].idItem
+                )
+            )
+//            tes = dataOrder[i].idItem
+//            Log.e( "saveOrder: ", "$tes" )
+        }
+//        val customerOrder = CustomerOrder(
+//            csId = dataCustomerIdSelected,
+//            orId = tes
+//        )
         val saveOrderRequest = SaveOrder(
             0,
             dataCustomerSelected?.nameCustomer.toString(),
@@ -89,7 +119,7 @@ class OrderListActivity : AppCompatActivity() {
             DataMapper.mapOrderToSaveOrderList(dataOrder)
         )
         lifecycleScope.launch {
-            saveOrderViewModel.insertSaveOrder(saveOrderRequest)
+            customerOrder?.let { customerOrderViewModel.insertCustomerOrder(it) }
         }
     }
 
@@ -122,7 +152,8 @@ class OrderListActivity : AppCompatActivity() {
             items = itemDataCustomer,
             onItemClicked = {
                 binding.edtName.setText(dataCustomer[it].nameCustomer)
-                dataCustomerSelected = dataCustomer[it]
+//                dataCustomerSelected = dataCustomer[it]
+                dataCustomerIdSelected = dataCustomer[it].idCustomer
             }
         )
     }

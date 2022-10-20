@@ -1,6 +1,5 @@
 package id.co.astra.adel.metamor.data.customer.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 

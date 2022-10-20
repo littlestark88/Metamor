@@ -11,6 +11,7 @@ import id.co.astra.adel.metamor.data.MetamorDatabase
 import id.co.astra.adel.metamor.data.additem.local.AddItemDao
 import id.co.astra.adel.metamor.data.checkout.local.CheckoutDao
 import id.co.astra.adel.metamor.data.customer.local.CustomerDao
+import id.co.astra.adel.metamor.data.customerorder.local.CustomerOrderDao
 import id.co.astra.adel.metamor.data.order.local.OrderDao
 import id.co.astra.adel.metamor.data.saveorder.local.SaveOrderDao
 import javax.inject.Singleton
@@ -34,6 +35,9 @@ class DatabaseModule {
 
     @Provides
     fun provideCustomerDao(database: MetamorDatabase): CustomerDao = database.customerDao()
+
+    @Provides
+    fun provideCustomerOrderDao(database: MetamorDatabase): CustomerOrderDao = database.customerOrderDao()
 
     @Provides
     fun provideOrderDao(database: MetamorDatabase): OrderDao = database.orderDao()

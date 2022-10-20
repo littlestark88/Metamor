@@ -11,6 +11,9 @@ import id.co.astra.adel.metamor.domain.checkout.CheckoutInteractor
 import id.co.astra.adel.metamor.domain.checkout.CheckoutUseCase
 import id.co.astra.adel.metamor.domain.customer.CustomerInteractor
 import id.co.astra.adel.metamor.domain.customer.CustomerUseCase
+import id.co.astra.adel.metamor.domain.customerorder.CustomerOrderInteractor
+import id.co.astra.adel.metamor.domain.customerorder.CustomerOrderUseCase
+import id.co.astra.adel.metamor.domain.customerorder.model.CustomerOrder
 import id.co.astra.adel.metamor.domain.order.OrderInteractor
 import id.co.astra.adel.metamor.domain.order.OrderUseCase
 import id.co.astra.adel.metamor.domain.saveorder.SaveOrderInteractor
@@ -31,6 +34,10 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideCustomerUseCase(customerInteractor: CustomerInteractor): CustomerUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideCustomerOrderUseCase(customerOrderInteractor: CustomerOrderInteractor): CustomerOrderUseCase
 
     @Binds
     @ViewModelScoped
