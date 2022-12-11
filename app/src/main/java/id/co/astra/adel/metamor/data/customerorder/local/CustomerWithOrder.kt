@@ -16,8 +16,8 @@ data class CustomerWithOrder(
         entityColumn = "idItem",
         associateBy = Junction(
             value = CustomerOrderCrossRefEntity::class,
-            parentColumn = "csId",
-            entityColumn = "orId"
+            parentColumn = "customerId",
+            entityColumn = "orderId"
         )
     )
     val orderEntity: List<OrderEntity>

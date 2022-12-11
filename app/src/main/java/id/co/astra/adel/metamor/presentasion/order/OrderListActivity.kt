@@ -86,40 +86,19 @@ class OrderListActivity : AppCompatActivity() {
     }
 
     private fun saveOrder() {
-        var tes = 0
         var customerOrder : List<CustomerOrder>? = null
-//        dataOrder.forEach {
-//            Log.e( "saveOrder: ", "${it.idItem}" )
-//            customerOrder = listOf(
-//                CustomerOrder(
-//                    csId = dataCustomerIdSelected,
-//                    orId = it.idItem
-//                )
-//            )
-//        }
+        val addCustomerOrder : ArrayList<CustomerOrder>? = null
         for(i in dataOrder.indices) {
             customerOrder = listOf(
                 CustomerOrder(
-                    csId = dataCustomerIdSelected,
-                    orId = dataOrder[i].idItem
+                    customerId = dataCustomerIdSelected,
+                    orderId = dataOrder[i].idItem
                 )
             )
-//            tes = dataOrder[i].idItem
-//            Log.e( "saveOrder: ", "$tes" )
+            addCustomerOrder?.addAll(customerOrder)
         }
-//        val customerOrder = CustomerOrder(
-//            csId = dataCustomerIdSelected,
-//            orId = tes
-//        )
-        val saveOrderRequest = SaveOrder(
-            0,
-            dataCustomerSelected?.nameCustomer.toString(),
-            dataCustomerSelected?.numberPhone ?: 0,
-            dataCustomerSelected?.email.toString(),
-            DataMapper.mapOrderToSaveOrderList(dataOrder)
-        )
         lifecycleScope.launch {
-            customerOrder?.let { customerOrderViewModel.insertCustomerOrder(it) }
+            customerOrder?.let { customerOrderViewModel.insertCustomerOrder(addCustomerOrder ?: emptyList()) }
         }
     }
 
@@ -152,7 +131,6 @@ class OrderListActivity : AppCompatActivity() {
             items = itemDataCustomer,
             onItemClicked = {
                 binding.edtName.setText(dataCustomer[it].nameCustomer)
-//                dataCustomerSelected = dataCustomer[it]
                 dataCustomerIdSelected = dataCustomer[it].idCustomer
             }
         )
