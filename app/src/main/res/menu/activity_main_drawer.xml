@@ -18,11 +18,6 @@
             android:title="@string/menu_add_item" />
 
         <item
-            android:id="@+id/nav_save_order"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_save_order" />
-
-        <item
             android:id="@+id/nav_invoice"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_invoice" />

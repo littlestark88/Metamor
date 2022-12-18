@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 @Entity
 data class CustomerEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "idCustomer")
+    @ColumnInfo(name = "customerId")
     var idCustomer: Int = 0,
 
-    @ColumnInfo(name = "nameCustomer")
+    @ColumnInfo(name = "customerName")
     var nameCustomer: String?,
 
     @ColumnInfo(name = "numberPhone")

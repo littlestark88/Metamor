@@ -12,9 +12,12 @@ interface OrderDao {
     @Update
     suspend fun updateTakeItem(orderEntity: OrderEntity)
 
-    @Query("DELETE FROM orderEntity WHERE idItem = :idItem")
+    @Query("DELETE FROM orderEntity WHERE orderId = :idItem")
     suspend fun deleteTakeItem(idItem: Int)
 
-    @Query("SELECT * from orderEntity ORDER BY idItem ASC")
+    @Query("SELECT * from orderEntity ORDER BY orderId ASC")
     fun getAllTakeItem(): Flow<List<OrderEntity>>
+
+    @Query("SELECT * from OrderEntity WHERE customerId = :customerId")
+    fun getOrderByCustomerId(customerId: Int): Flow<List<OrderEntity>>
 }

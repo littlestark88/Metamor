@@ -8,4 +8,5 @@ interface IOrderLocalSource {
     suspend fun updateOrder(orderEntity: OrderEntity)
     suspend fun deleteOrder(idItem: Int)
     fun getAllOrder(): Flow<List<OrderEntity>>
+    fun getOrderByCustomerId(customerId: Int): Flow<List<OrderEntity>>
 }

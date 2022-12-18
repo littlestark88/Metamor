@@ -3,7 +3,6 @@ package id.co.astra.adel.metamor.data
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import id.co.astra.adel.metamor.data.checkout.local.CheckoutItem
-import id.co.astra.adel.metamor.data.saveorder.local.SaveOrderItem
 
 class CheckoutConverter {
     @TypeConverter

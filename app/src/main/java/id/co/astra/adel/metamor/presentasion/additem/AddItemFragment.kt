@@ -26,6 +26,7 @@ import coil.request.SuccessResult
 import com.afollestad.materialdialogs.MaterialDialog
 import dagger.hilt.android.AndroidEntryPoint
 import id.co.astra.adel.metamor.R
+import id.co.astra.adel.metamor.base.Resource
 import id.co.astra.adel.metamor.databinding.FragmentAddItemBinding
 import id.co.astra.adel.metamor.domain.additem.model.AddItem
 import id.co.astra.adel.metamor.presentasion.camera.CameraXActivity
@@ -80,6 +81,18 @@ class AddItemFragment : Fragment(), View.OnClickListener {
             getBitmap()
         )
         viewModel.insertItem(addItem)
+        viewModel.insertItem.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> showToast("Loading")
+                is Resource.Success -> showToast("Success")
+                is Resource.Error -> showToast("Error")
+                else -> {}
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun openCamera() {

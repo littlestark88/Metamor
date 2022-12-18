@@ -16,8 +16,6 @@ import id.co.astra.adel.metamor.domain.customerorder.CustomerOrderUseCase
 import id.co.astra.adel.metamor.domain.customerorder.model.CustomerOrder
 import id.co.astra.adel.metamor.domain.order.OrderInteractor
 import id.co.astra.adel.metamor.domain.order.OrderUseCase
-import id.co.astra.adel.metamor.domain.saveorder.SaveOrderInteractor
-import id.co.astra.adel.metamor.domain.saveorder.SaveOrderUseCase
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -43,7 +41,4 @@ abstract class AppModule {
     @ViewModelScoped
     abstract fun provideOrderUseCase(orderInteractor: OrderInteractor): OrderUseCase
 
-    @Binds
-    @ViewModelScoped
-    abstract fun provideSaveOrderUseCase(saveOrderInteractor: SaveOrderInteractor): SaveOrderUseCase
 }

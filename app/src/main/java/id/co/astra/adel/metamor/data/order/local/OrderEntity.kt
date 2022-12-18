@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(indices = [Index(value = ["nameItem"], unique = true)], )
 data class OrderEntity (
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "idItem")
+    @ColumnInfo(name = "orderId")
     var idItem: Int = 0,
 
     @ColumnInfo(name = "nameItem")
@@ -21,5 +21,8 @@ data class OrderEntity (
     var quantityItem: Int?,
 
     @ColumnInfo(name = "discountItem")
-    var discountItem: Int?
+    var discountItem: Int?,
+
+    @ColumnInfo(name = "customerId")
+    var customerId: Int = 0
 )

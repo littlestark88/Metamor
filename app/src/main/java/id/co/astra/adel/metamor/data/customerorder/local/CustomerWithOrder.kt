@@ -11,9 +11,9 @@ data class CustomerWithOrder(
     val customerEntity : CustomerEntity,
 
     @Relation(
-        parentColumn = "idCustomer",
+        parentColumn = "customerId",
         entity = OrderEntity::class,
-        entityColumn = "idItem",
+        entityColumn = "orderId",
         associateBy = Junction(
             value = CustomerOrderCrossRefEntity::class,
             parentColumn = "customerId",

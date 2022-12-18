@@ -26,4 +26,8 @@ class OrderRepository @Inject constructor(private val orderLocalSource: OrderLoc
     override fun getAllOrder(): Flow<List<Order>> {
         return orderLocalSource.getAllOrder().map { DataMapper.mapToOrderEntityToDomainList(it) }
     }
+
+    override fun getOrderByCustomerId(customerId: Int): Flow<List<Order>> {
+        return orderLocalSource.getOrderByCustomerId(customerId).map { DataMapper.mapToOrderEntityToDomainList(it) }
+    }
 }

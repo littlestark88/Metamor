@@ -68,12 +68,13 @@ fun customDialogOk(
     dialog.show()
 }
 
-fun Context.showSimpleListDialog(
+fun showSimpleListDialog(
+    context: Context,
     title: String,
     items: List<String>,
     onItemClicked: (Int) -> Unit
 ) {
-    MaterialAlertDialogBuilder(this)
+    MaterialAlertDialogBuilder(context)
         .setTitle(title)
         .setItems(items.toTypedArray()) { dialog, selectedIndex ->
             dialog.dismiss()

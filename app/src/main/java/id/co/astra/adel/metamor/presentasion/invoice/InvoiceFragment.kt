@@ -44,10 +44,10 @@ class InvoiceFragment : Fragment() {
     }
 
     private fun listInvoiceObserver() {
-        checkoutViewModel.getAllCheckout.observe(viewLifecycleOwner) {
-            invoiceAdapter.setListInvoice(it)
-            invoiceAdapter.notifyDataSetChanged()
-        }
+//        checkoutViewModel.getAllCheckout.observe(viewLifecycleOwner) {
+//            invoiceAdapter.setListInvoice(it)
+//            invoiceAdapter.notifyDataSetChanged()
+//        }
     }
 
     private fun intentToInvoiceDetail(data: Checkout) {

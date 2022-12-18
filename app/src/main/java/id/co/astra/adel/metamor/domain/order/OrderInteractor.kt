@@ -12,4 +12,6 @@ class OrderInteractor @Inject constructor(private val repository: IOrderReposito
     override suspend fun deleteOrder(idItem: Int) = repository.deleteOrder(idItem)
 
     override fun getAllOrder(): Flow<List<Order>> = repository.getAllOrder()
+
+    override fun getOrderByCustomerId(customerId: Int): Flow<List<Order>> = repository.getOrderByCustomerId(customerId)
 }

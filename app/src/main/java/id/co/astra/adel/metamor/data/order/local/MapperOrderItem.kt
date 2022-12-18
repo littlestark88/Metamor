@@ -7,5 +7,6 @@ fun Order.mapToEntity() = OrderEntity(
     nameItem = nameItem,
     priceItem = priceItem,
     quantityItem = quantityItem,
-    discountItem = discountItem
+    discountItem = discountItem,
+    customerId = customerId
 )

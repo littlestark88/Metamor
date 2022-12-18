@@ -2,7 +2,7 @@ package id.co.astra.adel.metamor.presentasion.order
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -14,16 +14,13 @@ import id.co.astra.adel.metamor.databinding.ActivityOrderListBinding
 import id.co.astra.adel.metamor.domain.customer.model.Customer
 import id.co.astra.adel.metamor.domain.customerorder.model.CustomerOrder
 import id.co.astra.adel.metamor.domain.order.model.Order
-import id.co.astra.adel.metamor.domain.saveorder.model.SaveOrder
 import id.co.astra.adel.metamor.presentasion.customer.CustomerViewModel
 import id.co.astra.adel.metamor.presentasion.payment.PaymentActivity
-import id.co.astra.adel.metamor.presentasion.saveorder.SaveOrderViewModel
 import id.co.astra.adel.metamor.utils.CallbackInterface
 import id.co.astra.adel.metamor.utils.Constants.ID_CUSTOMER
 import id.co.astra.adel.metamor.utils.Constants.PPN
 import id.co.astra.adel.metamor.utils.Constants.QUANTITY
 import id.co.astra.adel.metamor.utils.Constants.TOTAL
-import id.co.astra.adel.metamor.utils.DataMapper
 import id.co.astra.adel.metamor.utils.convertCurrency
 import id.co.astra.adel.metamor.utils.showSimpleListDialog
 import kotlinx.coroutines.launch
@@ -34,15 +31,12 @@ class OrderListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderListBinding
     private val orderViewModel: OrderViewModel by viewModels()
     private val customerViewModel: CustomerViewModel by viewModels()
-    private val saveOrderViewModel: SaveOrderViewModel by viewModels()
     private val customerOrderViewModel: CustomerOrderViewModel by viewModels()
     private lateinit var orderListAdapter: OrderListAdapter
     private var data = mutableListOf<Order>()
     private var dataOrder = mutableListOf<Order>()
     private var dataCustomer = mutableListOf<Customer>()
-    private var dataCustomerSelected : Customer? = null
     private var dataCustomerIdSelected: Int = 0
-    private var idOrder = mutableListOf<Int>()
     private var itemDataCustomer = mutableListOf<String>()
     private var dataTotal: Double = 0.0
     private var dataQuantity: Int = 0
@@ -53,11 +47,12 @@ class OrderListActivity : AppCompatActivity() {
         binding = ActivityOrderListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val idCustomer = intent.getIntExtra(ID_CUSTOMER, 0)
-        if(idCustomer == 0) {
+        if (idCustomer == 0) {
             initOrderObserver()
             initCustomerObserver()
         } else {
-            initGetSaveOrderObserver(idCustomer)
+            Toast.makeText(this, idCustomer.toString(), Toast.LENGTH_SHORT).show()
+//            initGetSaveOrderObserver(idCustomer)
         }
         showRecyclerList()
         with(binding) {
@@ -86,25 +81,16 @@ class OrderListActivity : AppCompatActivity() {
     }
 
     private fun saveOrder() {
-        var customerOrder : List<CustomerOrder>? = null
-        val addCustomerOrder : ArrayList<CustomerOrder>? = null
-        for(i in dataOrder.indices) {
-            customerOrder = listOf(
-                CustomerOrder(
+        val addCustomerOrder = ArrayList<CustomerOrder>()
+        for (i in dataOrder) {
+            val customerOrder = CustomerOrder(
                     customerId = dataCustomerIdSelected,
-                    orderId = dataOrder[i].idItem
+                    orderId = i.idItem
                 )
-            )
-            addCustomerOrder?.addAll(customerOrder)
+            addCustomerOrder.add(customerOrder)
         }
         lifecycleScope.launch {
-            customerOrder?.let { customerOrderViewModel.insertCustomerOrder(addCustomerOrder ?: emptyList()) }
-        }
-    }
-
-    private fun initGetSaveOrderObserver(idCustomer: Int) {
-        saveOrderViewModel.getSaveOrderById(idCustomer).observe(this) {
-
+            addCustomerOrder.let { customerOrderViewModel.insertCustomerOrder(it) }
         }
     }
     private fun initOrderObserver() {
@@ -126,14 +112,14 @@ class OrderListActivity : AppCompatActivity() {
     }
 
     private fun showSimpleDialogName() {
-        showSimpleListDialog(
-            title = getString(R.string.select_name),
-            items = itemDataCustomer,
-            onItemClicked = {
-                binding.edtName.setText(dataCustomer[it].nameCustomer)
-                dataCustomerIdSelected = dataCustomer[it].idCustomer
-            }
-        )
+//        showSimpleListDialog(
+//            title = getString(R.string.select_name),
+//            items = itemDataCustomer,
+//            onItemClicked = {
+//                binding.edtName.setText(dataCustomer[it].nameCustomer)
+//                dataCustomerIdSelected = dataCustomer[it].idCustomer
+//            }
+//        )
     }
 
     private fun showRecyclerList() {

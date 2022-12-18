@@ -44,34 +44,34 @@ class OrderItemFragment : DialogFragment() {
                 dismiss()
             }
             btnSave.setOnClickListener {
-                val valueDiscount = edtDiscount.text.toString()
-                if(valueDiscount.isNotEmpty()) {
-                    lifecycleScope.launch {
-                        orderViewModel.insertOrder(
-                            Order(
-                                0,
-                                dataItem?.nameItem.toString(),
-                                dataItem?.priceItem ?: 0.0,
-                                valueQuantity,
-                                valueDiscount.toInt()
-                            )
-                        )
-                    }
-                    dismiss()
-                } else {
-                    lifecycleScope.launch {
-                        orderViewModel.insertOrder(
-                            Order(
-                                0,
-                                dataItem?.nameItem.toString(),
-                                dataItem?.priceItem ?: 0.0,
-                                valueQuantity,
-                                0
-                            )
-                        )
-                    }
-                    dismiss()
-                }
+//                val valueDiscount = edtDiscount.text.toString()
+//                if(valueDiscount.isNotEmpty()) {
+//                    lifecycleScope.launch {
+//                        orderViewModel.insertOrder(
+////                            Order(
+////                                0,
+////                                dataItem?.nameItem.toString(),
+////                                dataItem?.priceItem ?: 0.0,
+////                                valueQuantity,
+////                                valueDiscount.toInt()
+////                            )
+//                        )
+//                    }
+//                    dismiss()
+//                } else {
+//                    lifecycleScope.launch {
+//                        orderViewModel.insertOrder(
+//                            Order(
+//                                0,
+//                                dataItem?.nameItem.toString(),
+//                                dataItem?.priceItem ?: 0.0,
+//                                valueQuantity,
+//                                0
+//                            )
+//                        )
+//                    }
+//                    dismiss()
+//                }
 
             }
 

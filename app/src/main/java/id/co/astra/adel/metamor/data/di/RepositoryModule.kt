@@ -10,13 +10,11 @@ import id.co.astra.adel.metamor.data.customer.CustomerRepository
 import id.co.astra.adel.metamor.data.customerorder.CustomerOrderRepository
 import id.co.astra.adel.metamor.data.customerorder.local.CustomerOrderCrossRefEntity
 import id.co.astra.adel.metamor.data.order.OrderRepository
-import id.co.astra.adel.metamor.data.saveorder.SaveOrderRepository
 import id.co.astra.adel.metamor.domain.additem.IAddItemRepository
 import id.co.astra.adel.metamor.domain.checkout.ICheckoutRepository
 import id.co.astra.adel.metamor.domain.customer.ICustomerRepository
 import id.co.astra.adel.metamor.domain.customerorder.ICustomerOrderRepository
 import id.co.astra.adel.metamor.domain.order.IOrderRepository
-import id.co.astra.adel.metamor.domain.saveorder.ISaveOrderRepository
 
 @Module(includes = [DatabaseModule::class])
 @InstallIn(SingletonComponent::class)
@@ -37,6 +35,4 @@ abstract class RepositoryModule {
     @Binds
     abstract fun provideOrderRepository(orderRepository: OrderRepository): IOrderRepository
 
-    @Binds
-    abstract fun provideSaveOrderRepository(saveOrderRepository: SaveOrderRepository): ISaveOrderRepository
 }

@@ -17,6 +17,7 @@ import id.co.astra.adel.metamor.R
 import id.co.astra.adel.metamor.databinding.ActivityMainBinding
 import id.co.astra.adel.metamor.presentasion.customer.CustomerActivity
 import id.co.astra.adel.metamor.presentasion.order.OrderListActivity
+import id.co.astra.adel.metamor.presentasion.order.OrderListFragment
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -42,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home,
                 R.id.nav_list_item,
                 R.id.nav_add_item,
-                R.id.nav_save_order,
                 R.id.nav_invoice,
                 R.id.nav_setting
             ), drawerLayout
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_order -> {
-                val intent = Intent(this, OrderListActivity::class.java)
+                val intent = Intent(this, OrderListFragment::class.java)
                 startActivity(intent)
                 true
             }

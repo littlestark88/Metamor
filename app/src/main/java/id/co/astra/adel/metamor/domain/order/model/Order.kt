@@ -9,5 +9,6 @@ data class Order(
     var nameItem: String,
     var priceItem: Double,
     var quantityItem: Int,
-    var discountItem: Int
+    var discountItem: Int,
+    var customerId: Int
 ): Parcelable

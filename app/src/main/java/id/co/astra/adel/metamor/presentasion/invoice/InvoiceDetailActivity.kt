@@ -43,16 +43,16 @@ class InvoiceDetailActivity : AppCompatActivity() {
         if (Printooth.hasPairedPrinter())
             printing = Printooth.printer()
         val checkoutId = intent.getIntExtra(CHECKOUT_ID, 0)
-        checkoutViewModel.getCheckoutById(checkoutId).observe(this) { checkout ->
-            dataCheckout = checkout
-            checkout.checkoutItem.let {
-                dataCheckoutList.addAll(it)
-                invoiceDetailAdapter = InvoiceDetailAdapter(
-                    it
-                )
-            }
-            initUIInvoice(checkout)
-        }
+//        checkoutViewModel.getCheckoutById(checkoutId).observe(this) { checkout ->
+//            dataCheckout = checkout
+//            checkout.checkoutItem.let {
+//                dataCheckoutList.addAll(it)
+//                invoiceDetailAdapter = InvoiceDetailAdapter(
+//                    it
+//                )
+//            }
+//            initUIInvoice(checkout)
+//        }
 
 
     }

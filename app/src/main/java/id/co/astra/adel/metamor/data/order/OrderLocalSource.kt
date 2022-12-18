@@ -15,4 +15,6 @@ class OrderLocalSource @Inject constructor(private val orderDao: OrderDao): IOrd
     override suspend fun deleteOrder(idItem: Int) = orderDao.deleteTakeItem(idItem)
 
     override fun getAllOrder(): Flow<List<OrderEntity>> = orderDao.getAllTakeItem()
+
+    override fun getOrderByCustomerId(customerId: Int): Flow<List<OrderEntity>> = orderDao.getOrderByCustomerId(customerId)
 }

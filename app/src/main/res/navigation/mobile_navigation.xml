@@ -24,12 +24,6 @@
         tools:layout="@layout/fragment_add_item" />
 
     <fragment
-        android:id="@+id/nav_save_order"
-        android:name="id.co.astra.adel.metamor.presentasion.saveorder.SaveOrderFragment"
-        android:label="@string/menu_save_order"
-        tools:layout="@layout/fragment_save_order" />
-
-    <fragment
         android:id="@+id/nav_invoice"
         android:name="id.co.astra.adel.metamor.presentasion.invoice.InvoiceFragment"
         android:label="@string/menu_invoice"
